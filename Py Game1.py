@@ -59,21 +59,21 @@ class Carro(p.sprite.Sprite):
         self.rect.center = (self.x, self.y)
     
         def SwitchLevel():
-        global SCORE
+            global SCORE
 
-        if slow_carro.vel < 0:
-            slow_carro.vel -= 1
+            if carro_pi.vel < 0:
+               carro_pi.vel -= 1
         
-        else:
-            slow_carro.vel += 1
+            else:
+                carro_pi.vel += 1
 
-        if fast_carro.vel < 0:
-            fast_carro.vel -= 1
+            if carro_dp.vel < 0:
+                carro_dp.vel -= 1
         
-        else:
-            fast_carro.vel += 1
+            else:
+                carro_dp.vel += 1
 
-        SCORE += 1
+            SCORE += 1
     
     def movimento(self):
         self.y += self.vel
@@ -137,8 +137,8 @@ class Flag(p.sprite.Sprite):
                     flag_group.add(flag)
     
     def ScoreDisplay():
-    score_text = score_font.render(str(SCORE) + ' / 5', True, (0,0,0))
-    win.blit(score_text(255,10))
+        score_text = score_font.render(str(SCORE) + ' / 5', True, (0,0,0))
+        win.blit(score_text(255,10))
 
 WIDTH = 640
 HEIGHT = 480
@@ -152,7 +152,7 @@ SCORE = 0
 score_font = p.font.SysFont('comicsans',8, True)
 
 bg = Tela()
-Tela_group = p.sprite.Group()
+tela_group = p.sprite.Group()
 tela_group.add(bg)
 
 student = Student()
@@ -177,13 +177,11 @@ while run:
         if event.type == p.QUIT:
             run = False
 
-    screen_group.draw(win)
+    
+    tela_group.draw(win)
 
     ScoreDisplay()
     checkFlags()
-
-
-    tela_group.draw(win)
 
     student_group.draw(win)
     carro_group.draw(win)
