@@ -15,6 +15,7 @@ class Student(p.sprite.Sprite):
 
         self.image = self.student1
         self.rect = self.image.get_rect()
+        self.mask = p.mask.from_surface(self.image)
           
     def update(self):
         self.rect.center = (self.x, self.y)
@@ -56,6 +57,23 @@ class Carro(p.sprite.Sprite):
     def update(self):
         self.movimento()
         self.rect.center = (self.x, self.y)
+    
+        def SwitchLevel():
+        global SCORE
+
+        if slow_carro.vel < 0:
+            slow_carro.vel -= 1
+        
+        else:
+            slow_carro.vel += 1
+
+        if fast_carro.vel < 0:
+            fast_carro.vel -= 1
+        
+        else:
+            fast_carro.vel += 1
+
+        SCORE += 1
     
     def movimento(self):
         self.y += self.vel
@@ -108,7 +126,17 @@ class Flag(p.sprite.Sprite):
     def update(self):
         if self.visible:
             self.rect.center = (self.x,self.y)
-def ScoreDisplay():
+    
+    def checkFlags():
+        for flag in flags:
+            if not flag.visiable:
+                flag.kill()
+
+            else:
+                if not flag.alive():
+                    flag_group.add(flag)
+    
+    def ScoreDisplay():
     score_text = score_font.render(str(SCORE) + ' / 5', True, (0,0,0))
     win.blit(score_text(255,10))
 
@@ -135,6 +163,12 @@ carro_pi = Carro(1)
 carro_dp = Carro(2)
 carro_group = p.sprite.Group()
 carro_group.add(carro_pi, carro_dp)
+
+green_flag = Flag(1)
+white_flag = Flag(2)
+flag_group = p.sprit.Group()
+flag_group.add(green_flag, white_flag)
+flags = [green_flag, white_flag]
 
 run = True
 while run:
