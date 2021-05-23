@@ -67,6 +67,50 @@ class Carro(p.sprite.Sprite):
             self.y = HEIGHT - self.height/2
             self.vel *= -1
 
+class Tela(p.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.img1 = p.image.load('Scene.png')
+        self.img2 = p.image.load('You win.png')
+        self.img3 = p.image.load('You loose.png')
+        
+        self.img1 = p.transform.scale(self.img1(WIDTH,HEIGHT))
+        self.img2 = p.transform.scale(self.img2(WIDTH,HEIGHT))
+        self.img3 = p.transform.scale(self.img3(WIDTH,HEIGHT))
+        
+        self.image = self.img1
+        self.x = 0
+        self.y = 0
+        
+        self.rect = self.image.get_rect()
+        
+    def updade(self):
+        self.rect.topleft = (self.x,self.y)
+
+class Flag(p.sprite.Sprite):
+    def __init__(self,number):
+        super().__init__()
+        self.number = number
+        
+        if self.number == 1:
+            self.image = p.image.load('Green flag.png') 
+            self.visible = False
+            self.x = 50
+        else:
+            self.image = p.image.load('White flag.png') 
+            self.visible = True
+            self.x = 580
+            
+        self.y = HEIGHT/2
+        self.image = p.transforme.scale2x(self.image)
+        self.rect = self.image.get_rect()
+        
+    def update(self):
+        if self.visible:
+            self.rect.center = (self.x,self.y)
+def ScoreDisplay():
+    score_text = score_font.render(str(SCORE) + ' / 5', True, (0,0,0))
+    win.blit(score_text(255,10))
 
 WIDTH = 640
 HEIGHT = 480
@@ -76,6 +120,12 @@ p.init()
 win = p.display.set_mode((WIDTH, HEIGHT))
 p.display.set_captions('Crossy Road')
 clock = p.time.Clock()
+SCORE = 0
+score_font = p.font.SysFont('comicsans',8, True)
+
+bg = Tela()
+Tela_group = p.sprite.Group()
+tela_group.add(bg)
 
 student = Student()
 student_group = p.sprite.Group()
@@ -99,13 +149,15 @@ while run:
     checkFlags()
 
 
-    win.fill((0, 255, 0))
+    tela_group.draw(win)
 
     student_group.draw(win)
     carro_group.draw(win)
 
     student_group.update()
     carro_group.update()
+    tela_group.update()
+    ScoreDisplay()
     p.display.update()
 
     
