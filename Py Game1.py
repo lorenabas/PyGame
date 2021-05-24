@@ -1,4 +1,5 @@
 import pygame as p 
+import time
 
 class Student(p.sprite.Sprite):
     def __init__(self):
@@ -18,9 +19,13 @@ class Student(p.sprite.Sprite):
         self.mask = p.mask.from_surface(self.image)
           
     def update(self):
+        self.movement()
+        self.correction()
+        self.VerificaColisao()
         self.rect.center = (self.x, self.y)
+        
     
-    def moviment(self):
+    def movement(self):
         keys = p.key.get_pressed()
         if keys[p.K_LEFT]:
             self.x -=self.vel
@@ -33,6 +38,12 @@ class Student(p.sprite.Sprite):
 
         elif keys[p.K_DOWN]:
             self.y += self.val
+
+    def VerificaColisao(self):
+        carro_check = p.sprite.spritecollide(self, carro_group, False, p.sprite.collide_mask)
+        if carro_check:
+            explosao.explodir(self.x, self.y)
+
 
 class Carro(p.sprite.Sprite):
     def __init__(self, number):
@@ -55,7 +66,7 @@ class Carro(p.sprite.Sprite):
 
 
     def update(self):
-        self.movimento()
+        self.movement()
         self.rect.center = (self.x, self.y)
     
         def SwitchLevel():
@@ -75,7 +86,7 @@ class Carro(p.sprite.Sprite):
 
             SCORE += 1
     
-    def movimento(self):
+    def movement(self):
         self.y += self.vel
         if self.y - self.height/2 < 0:
             self.y = self.height/2
@@ -167,7 +178,22 @@ class Explosao(object):
         self.image = p.image.load('explosao' + str(self.costume) + '.png')
         self.image = p.transform.scale(self.image, (self.width, self.height))
 
+    def explodir(self, x, y):
+        x = x - self.width/2
+        y = y - self.height/2
+        DeleteStudent()
 
+        while self.costume < 9:
+            self.image = p.image.load('explosao' + str(self.costume) + '.png')
+            self.image = p.transform.scale(self.image, (self.width, self.height))
+            win.blit(self.image, (x, y))
+            p.display.update()
+
+            self.costume += 1
+            time.sleep(0.1)
+        
+        DeleteOutrosItems()
+               
 
 WIDTH = 640
 HEIGHT = 480
@@ -199,6 +225,9 @@ flag_group = p.sprit.Group()
 flag_group.add(green_flag, white_flag)
 flags = [green_flag, white_flag]
 
+explosao = Explosao()
+
+
 run = True
 while run:
     clock.tick(60)
@@ -212,15 +241,15 @@ while run:
     ScoreDisplay()
     checkFlags()
 
-    student_group.draw(win)
     carro_group.draw(win)
+    student_group.draw(win)
+    flag_group.draw(win)
 
-    student_group.update()
     carro_group.update()
+    student_group.update()
     tela_group.update()
-    ScoreDisplay()
+
     p.display.update()
 
-    
 
 p.quit()
