@@ -45,7 +45,7 @@ class Carro(p.sprite.Sprite):
         else:
              self.x = 460
              self.image = p.image.load('Carro_DP.png')
-             self_vel = 5
+             self.vel = 5
         
         self.y = HEIGHT/2
         self.width = 100
@@ -139,6 +139,35 @@ class Flag(p.sprite.Sprite):
     def ScoreDisplay():
         score_text = score_font.render(str(SCORE) + ' / 5', True, (0,0,0))
         win.blit(score_text(255,10))
+
+def DeleteStudent():
+    global student
+
+    student.kill()
+    tela_group.draw(win)
+    carro_group.draw(win)
+    flag_group.draw(win)
+
+    tela_group.update()
+    carro_group.update()
+    flag_group.update()
+
+    p.display.update()
+
+def DeleteOutrosItems():
+    carro_group.empty()
+    flag_group.empty()
+    flags.clear()
+
+class Explosao(object):
+    def __init__(self):
+        self.costume = 1
+        self.width = 140
+        self.height = 140
+        self.image = p.image.load('explosao' + str(self.costume) + '.png')
+        self.image = p.transform.scale(self.image, (self.width, self.height))
+
+
 
 WIDTH = 640
 HEIGHT = 480
