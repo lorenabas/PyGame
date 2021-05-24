@@ -183,8 +183,8 @@ def collision(self):
     if SCORE < 5:
         SwitchLevel()
     else:
-        cat_group.empty()
-        DeleteOtherItems()
+        student_group.empty()
+        DeleteOutrosItems()
         EndScreen(1)
     else:
         green_flag.visiable = True
@@ -195,7 +195,7 @@ def EndScreen(n):
     if n == 0:
         bg.image = bg.img3
     elif n == 1:
-        bg.image = gb.img2
+        bg.image = bg.img2
 
 
 
