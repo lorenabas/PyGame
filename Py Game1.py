@@ -44,7 +44,6 @@ class Student(p.sprite.Sprite):
         if carro_check:
             explosao.explodir(self.x, self.y)
 
-
 class Carro(p.sprite.Sprite):
     def __init__(self, number):
         super().__init()
@@ -148,11 +147,8 @@ class Flag(p.sprite.Sprite):
                     flag_group.add(flag)
     
     def ScoreDisplay():
-        global gameOn
-        if gameOn:
-            score_text = score_font.render(str(SCORE) + ' / 5', True, (0,0,0))
-            win.blit(score_text(255,10))
-        
+        score_text = score_font.render(str(SCORE) + ' / 5', True, (0,0,0))
+        win.blit(score_text(255,10))
 
 def DeleteStudent():
     global student
@@ -172,32 +168,6 @@ def DeleteOutrosItems():
     carro_group.empty()
     flag_group.empty()
     flags.clear()
-
-def collision(self):
-    global SCORE, student
-    flag_hit = p.sprite.spritecollide(self, student_group, False, p.sprite.collide_mask)
-    if flag_hit:
-        self.visiable = False
-    if self.number == 1:
-        white_flag.visiable = True
-    if SCORE < 5:
-        SwitchLevel()
-    else:
-        student_group.empty()
-        DeleteOutrosItems()
-        EndScreen(1)
-    else:
-        green_flag.visiable = True
-
-def EndScreen(n):
-    global gameOn
-    gameOn = False
-    if n == 0:
-        bg.image = bg.img3
-    elif n == 1:
-        bg.image = bg.img2
-
-
 
 class Explosao(object):
     def __init__(self):
@@ -221,8 +191,7 @@ class Explosao(object):
             self.costume += 1
             time.sleep(0.1)
         
-        DeleteOutrosItems()
-        EndScreen(0)
+        DeleteOutrosItems()               
 
 WIDTH = 640
 HEIGHT = 480
@@ -255,7 +224,7 @@ flag_group.add(green_flag, white_flag)
 flags = [green_flag, white_flag]
 
 explosao = Explosao()
-gameOn = True
+
 
 run = True
 while run:
