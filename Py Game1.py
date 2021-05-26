@@ -102,9 +102,9 @@ class Tela(p.sprite.Sprite):
         self.img2 = p.image.load('You win.png')
         self.img3 = p.image.load('You loose.png')
         
-        self.img1 = p.transform.scale(self.img1(WIDTH,HEIGHT))
-        self.img2 = p.transform.scale(self.img2(WIDTH,HEIGHT))
-        self.img3 = p.transform.scale(self.img3(WIDTH,HEIGHT))
+        self.img1 = p.transform.scale(self.img1, (WIDTH,HEIGHT))
+        self.img2 = p.transform.scale(self.img2, (WIDTH,HEIGHT))
+        self.img3 = p.transform.scale(self.img3, (WIDTH,HEIGHT))
         
         self.image = self.img1
         self.x = 0
@@ -116,16 +116,16 @@ class Tela(p.sprite.Sprite):
         self.rect.topleft = (self.x,self.y)
 
 class Flag(p.sprite.Sprite):
-    def __init__(self,number):
+    def __init__(self, number):
         super().__init__()
         self.number = number
         
         if self.number == 1:
-            self.image = p.image.load('Green flag.png') 
+            self.image = p.image.load('diploma.png') 
             self.visible = False
             self.x = 50
         else:
-            self.image = p.image.load('White flag.png') 
+            self.image = p.image.load('chapéu.png') 
             self.visible = True
             self.x = 580
             
@@ -245,6 +245,8 @@ while run:
 
     carro_group.update()
     student_group.update()
+    flag_group.update()
+
     tela_group.update()
 
     p.display.update()
